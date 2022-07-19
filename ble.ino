@@ -8,7 +8,6 @@
 void setup(){
     //create a usb serail connection
     Serial.begin(115200);
-
     //give a name to the device
     BLEDevice::init("navigation system testing");
     //create a pointer to the server of the comunication
@@ -16,11 +15,15 @@ void setup(){
     //create a pointer to the service in the server
     BLEService* pService = pServer->createService(SERVICE_UUID);
     //create a characteristic to the service
-    BLECharacteristic* pCharacteristic = pService->createCharacteristic(CHARACTERISTIC_UUID,(BLECharacteristic::PROPERTY_READ,BLECharacteristic::PROPERTY_WRITE));
+    BLECharacteristic* pCharacteristic = pService->createCharacteristic(CHARACTERISTIC_UUID,(BLECharacteristic::PROPERTY_BROADCAST));
     //add value to the catacteristic
     pCharacteristic->setValue("Hello world");
 
+    //create an advertising object
     BLEAdvertising* pAdvertising = pServer->getAdvertising();
+    //make the advertising non connectable
+    pAdvertising->setAdvertisementType(esp_ble_adv_type_t::ADV_TYPE_NONCONN_IND);
+    //start the advertising
     pAdvertising->start();
 
     //print succsess in the serial connection
