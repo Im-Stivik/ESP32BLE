@@ -23,7 +23,9 @@ void setup(){
     BLEAdvertising* pAdvertising = pServer->getAdvertising();
     //make the advertising non connectable
     pAdvertising->setAdvertisementType(esp_ble_adv_type_t::ADV_TYPE_NONCONN_IND);
-    //start the advertising
+    //connect the advertising to the server
+    pAdvertising->addServiceUUID(SERVICE_UUID);
+    //start the advertisingstartBluetoothScan
     pAdvertising->start();
 
     //print succsess in the serial connection
@@ -33,6 +35,8 @@ void setup(){
     }
     Serial.print('\n');
 }
+
+
 
 void loop(){
 
